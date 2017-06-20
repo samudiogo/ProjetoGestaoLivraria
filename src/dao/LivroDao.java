@@ -79,14 +79,14 @@ public class LivroDao {
 		return false;
 	}
 
-	public static boolean ReservaLlivro(int livroId, int usuarioId) {
+	public static boolean CadastraLivro(Livro livro) {
 		PreparedStatement ps = null;
 
 		try {
 
-			ps = Conexao.obterConexao().prepareStatement("INSERT INTO LIVRO_USUARIO (livroId, usuarioId) values(?,?)");
-			ps.setInt(1, livroId);
-			ps.setInt(2, usuarioId);
+			ps = Conexao.obterConexao().prepareStatement("INSERT INTO LIVRO (nome,qtde) values(?,?)");
+			ps.setString(1, livro.getNome());
+			ps.setInt(2, livro.getQtde());
 			
 			ps.execute();
 			
@@ -95,7 +95,27 @@ public class LivroDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
+		return false;
+	}
+
+	public static boolean ReservaLlivro(int livroId, int usuarioId) {
+		PreparedStatement ps = null;
+
+		try {
+
+			ps = Conexao.obterConexao().prepareStatement("INSERT INTO LIVRO_USUARIO (livroId, usuarioId) values(?,?)");
+			ps.setInt(1, livroId);
+			ps.setInt(2, usuarioId);
+
+			ps.execute();
+
+			return true;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return false;
 
 	}
