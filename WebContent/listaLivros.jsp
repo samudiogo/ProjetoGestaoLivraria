@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Lista Livros</h1>
+		<h1>Lista Livros - <a class="btn btn-outline-warning" href="ControlaLivro?ac=new"> adicionar novo</a></h1>
 		<hr>
 		
 		<table class="table">

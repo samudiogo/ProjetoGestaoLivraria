@@ -60,15 +60,29 @@ public class ManterLivro extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Livro livro = new Livro(Integer.valueOf(request.getParameter("id")), request.getParameter("nome"),
+		int livroId = 0;
+		
+		if(!request.getParameter("id").isEmpty())
+			livroId = Integer.valueOf(request.getParameter("id"));
+		
+		Livro livro = new Livro(livroId, request.getParameter("nome"),
 				Integer.valueOf(request.getParameter("qtde")));
+		
 		String msg;
-		if (LivroDao.Alterar(livro)) {
-			msg = "livro alterado com sucesso";
-		} else {
-			msg = "erro ao alterar o seu livro.";
-		}
 
+		if (livro.getId() > 0) {
+
+			if (LivroDao.Alterar(livro)) {
+				msg = "livro alterado com sucesso";
+			} else {
+				msg = "erro ao alterar o seu livro.";
+			}
+		} else {
+			if (LivroDao.CadastraLivro(livro))
+				msg = "livro cadastrado com sucesso";
+			else
+				msg = "erro ao cadastrar o seu livro.";
+		}
 		request.setAttribute("msg", msg);
 		request.getRequestDispatcher("Msg.jsp").forward(request, response);
 

@@ -32,14 +32,17 @@ public class ControlaLivro extends HttpServlet {
 
 		if (request.getParameter("id") != null) {
 			int livroId = Integer.valueOf(request.getParameter("id"));
-			
-			Livro livro = LivroDao.obterPorId(livroId); 
+
+			Livro livro = LivroDao.obterPorId(livroId);
 			request.setAttribute("livro", livro);
+
+			request.getRequestDispatcher("detalheLivro.jsp").forward(request, response);
+
+		} else if ("new".equals(request.getParameter("ac"))) {
 			
 			request.getRequestDispatcher("detalheLivro.jsp").forward(request, response);
-			
 		} else {
-			
+
 			request.setAttribute("listalivros", LivroDao.obterLista());
 
 			request.getRequestDispatcher("listaLivros.jsp").forward(request, response);
