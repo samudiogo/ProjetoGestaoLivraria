@@ -15,6 +15,9 @@
 <body>
 	<div class="container">
 		<h2>Detalhe Livro - <span class="text-info">${livro.nome }</span> </h2>
+		<div class="well">
+			<h4>Reserve este livro! <a class="btn btn-outline-warning btn-sm" href="ManterLivro?livroId=${livro.id}"> Reservar</a> </h4>
+		</div>
 		<form class="form-signin" action="ManterLivro" method="post">
 			<input type="hidden" name="id" value="${livro.id }" >
 			<div class="form-group">
