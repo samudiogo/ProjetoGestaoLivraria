@@ -9,7 +9,6 @@ import java.util.List;
 import conexao.Conexao;
 import negocio.Livro;
 
-
 public class LivroDao {
 	public static List<Livro> obterLista() {
 
@@ -38,49 +37,66 @@ public class LivroDao {
 		return null;
 
 	}
-	
-	public static Livro obterPorId(int id){
+
+	public static Livro obterPorId(int id) {
 		PreparedStatement ps = null;
 		try {
-			
-			ps = Conexao.obterConexao()
-					.prepareStatement("SELECT * FROM livro where id = ?");
+
+			ps = Conexao.obterConexao().prepareStatement("SELECT * FROM livro where id = ?");
 			ps.setInt(1, id);
-			
+
 			ResultSet rs = null;
-			
+
 			rs = ps.executeQuery();
-			if(rs.next()){
-				return new Livro(rs.getInt("id"),
-						rs.getString("nome"),
-						rs.getInt("qtde"));
+			if (rs.next()) {
+				return new Livro(rs.getInt("id"), rs.getString("nome"), rs.getInt("qtde"));
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
+
 		}
 		return null;
 	}
-	
-	public static boolean Alterar(Livro livro){
+
+	public static boolean Alterar(Livro livro) {
 		PreparedStatement ps = null;
 		try {
-			
-			ps = Conexao.obterConexao()
-					.prepareStatement("UPDATE Livro set nome = ?, qtde = ? where id = ?");
+
+			ps = Conexao.obterConexao().prepareStatement("UPDATE Livro set nome = ?, qtde = ? where id = ?");
 			ps.setString(1, livro.getNome());
 			ps.setInt(2, livro.getQtde());
 			ps.setInt(3, livro.getId());
+
+			ps.execute();
+
+			return true;
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public static boolean ReservaLlivro(int livroId, int usuarioId) {
+		PreparedStatement ps = null;
+
+		try {
+
+			ps = Conexao.obterConexao().prepareStatement("INSERT INTO LIVRO_USUARIO (livroId, usuarioId) values(?,?)");
+			ps.setInt(1, livroId);
+			ps.setInt(2, usuarioId);
 			
 			ps.execute();
 			
 			return true;
-			
+
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
 		}
+		
 		return false;
+
 	}
 }
